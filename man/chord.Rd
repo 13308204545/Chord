@@ -33,3 +33,6 @@ chord(
 \description{
 remove doublet with scds,bcds,DoubletFinder,doubletCells.
 }
+\examples{
+chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+}

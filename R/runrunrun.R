@@ -9,11 +9,22 @@
 #' @param overkillrate an integer,remove the top ?% doublet-liked cells of any methods' results.(0-1)
 #' @param outname The prefix of the output file
 #' @param mfinal an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.
+#' @import Seurat
+#' @import scds
+#' @import scater
+#' @import rsvd
+#' @import Rtsne
+#' @import cowplot
+#' @import DoubletFinder
+#' @import scran
+#' @import adabag
+#' @export
+#' @examples chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
 
 #Chord------
 chord<-function(
   seu=NA,
-  doubletrate=NA, #实际是估计的
+  doubletrate=NA,
   mfinal=40,
   k=20,
   overkill=T,
