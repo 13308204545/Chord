@@ -30,6 +30,9 @@ A:The doublets' barcodes are in the file "outname_doublets.csv"
 
 
 ## References
-McGinnis, C. S., Murrow, L. M. & Gartner, Z. J. DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors. Cell Systems 8, 329-337.e324, doi:10.1016/j.cels.2019.03.003 (2019).
-Lun, A. T., McCarthy, D. J. & Marioni, J. C. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor. F1000Res 5, 2122, doi:10.12688/f1000research.9501.2 (2016).
-Bais, A. S. & Kostka, D. scds: computational annotation of doublets in single-cell RNA sequencing data. Bioinformatics 36, 1150-1158, doi:10.1093/bioinformatics/btz698 (2020).
+McGinnis, C. S., Murrow, L. M. & Gartner, Z. J. DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors. Cell Systems 8, 329-337.e324, doi:10.1016/j.cels.2019.03.003 (2019). 
+
+Lun, A. T., McCarthy, D. J. & Marioni, J. C. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor. F1000Res 5, 2122, doi:10.12688/f1000research.9501.2 (2016). 
+
+Bais, A. S. & Kostka, D. scds: computational annotation of doublets in single-cell RNA sequencing data. Bioinformatics 36, 1150-1158, doi:10.1093/bioinformatics/btz698 (2020). 
+
