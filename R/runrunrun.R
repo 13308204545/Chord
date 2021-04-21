@@ -96,7 +96,7 @@ chord<-function(
 
   write.csv(mattestout,file=paste0(outname,"real_score.csv"))
   d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
-  write.csv(d,file=paste0(outname,"doublet.csv"))
+  write.csv(d,file=paste0(outname,"_doublet.csv"))
 }
 
 
