@@ -8,8 +8,8 @@
 #' @param overkill if True,use overkill
 #' @param overkillrate an integer,remove the top ?% doublet-liked cells of any methods' results.(0-1)
 #' @param outname The prefix of the output file
-#' @param addmethods2 the table merged with other method's scores
-#' @param addmethods1 the table merged with other method's scores
+#' @param addmethods2 the table merged with other method's scores2
+#' @param addmethods1 the table merged with other method's scores1
 #' @param mfinal an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.
 #' @import Seurat
 #' @import scds
@@ -33,7 +33,7 @@ chord<-function(
   overkillrate=1,
   outname="out",
   seed=1,
-  addmethods2=NA,
+  addmethods1=NA,
   addmethods2=NA
   ){
 
