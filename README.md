@@ -13,6 +13,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install(version='devel')
 BiocManager::install("scran")
 
+install.packages("adabag")
+
 devtools::install_github("13308204545/Chord") 
    
 ```
