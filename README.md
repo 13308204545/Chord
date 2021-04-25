@@ -18,7 +18,7 @@ install.packages("adabag")
 devtools::install_github("13308204545/Chord") 
    
 ```
-## run:
+## Quick start:
 ```R
 chord（seu="input seurat object",doubletrat="estimated doubletrate",overkill=T,outname="the name you want"）
 ```
