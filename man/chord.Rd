@@ -12,7 +12,9 @@ chord(
   overkill = T,
   overkillrate = 1,
   outname = "out",
-  seed = 1
+  seed = 1,
+  addmethods1 = NA,
+  addmethods2 = NA
 )
 }
 \arguments{
@@ -29,6 +31,10 @@ chord(
 \item{outname}{The prefix of the output file}
 
 \item{seed}{an integer, random seed}
+
+\item{addmethods1}{the table merged with other method's scores1}
+
+\item{addmethods2}{the table merged with other method's scores2}
 }
 \description{
 remove doublet with scds,bcds,DoubletFinder,doubletCells.

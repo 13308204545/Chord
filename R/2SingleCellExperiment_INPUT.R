@@ -6,10 +6,10 @@
 creatSCE<-function(seu){
   require(SingleCellExperiment)
   #load(wd)
-  # 输入数据的表达矩阵
+  # input matrix
   counts_data <- as.matrix(seu@assays$RNA@data)
   col<-seu@meta.data
-  sce <- SingleCellExperiment(assays = list(counts = counts_data),colData = col)
+  sce <- SingleCellExperiment(assays = counts_data,colData = col)
   return(sce)
 }
 
