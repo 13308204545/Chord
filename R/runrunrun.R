@@ -66,7 +66,7 @@ chord<-function(
   mattrain<-testroc(seu=seu,sce=sce,outname = "train")#第一次测试,只对有实验标签的使用
   write.csv(mattrain,file = "real_data.scores.csv")
 
-  seu2<-overkillDB2(seu=seu,sce=sce,doubletrate=doubletrate,seed=seed,out="all",k=k,overkill=overkill,overkillrate=overkillrate)
+  seu2<-overkillDB2(seu=seu,sce=sce,doubletrate=doubletrate,seed=seed,k=k,overkill=overkill,overkillrate=overkillrate)
   doubletrate2=sum(seu2$label_scds=="Doublet")/ncol(seu2)
   sce2<-creatSCE(seu=seu2)
   sce2<-scds(sce=sce2)
