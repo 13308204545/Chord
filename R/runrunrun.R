@@ -75,14 +75,7 @@ chord<-function(
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
-  seu$chord<-mattestout$chord
-  seu$bcds_s<-mattestout$bcds_s
-  seu$cxds_s<-mattestout$cxds_s
-  seu$dbf_s<-mattestout$dbf_s
-  seu$scran_s<-mattestout$scran_s
-  pdf(paste0(outname,"score.pdf"))
-  print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","scran_s","chord")))
-  dev.off()
+
 
   if (is.na(addmethods1)&is.na(addmethods2)) {
     DBboost<-DBboostTrain(mattest=mattrain2,mfinal=mfinal)
@@ -93,6 +86,15 @@ chord<-function(
     DBboost<-DBboostTrain(mattest=addmethods2,mfinal=mfinal)
     mattestout<-DBboostPre(DBboost=DBboost,mattest=addmethods1,seu=seu,sce=sce,outname=paste0(outname,mfinal))
   }
+
+  seu$chord<-mattestout$chord
+  seu$bcds_s<-mattestout$bcds_s
+  seu$cxds_s<-mattestout$cxds_s
+  seu$dbf_s<-mattestout$dbf_s
+  seu$scran_s<-mattestout$scran_s
+  pdf(paste0(outname,"score.pdf"))
+  print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","scran_s","chord")))
+  dev.off()
 
   write.csv(mattestout,file=paste0(outname,"real_score.csv"))
   d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
