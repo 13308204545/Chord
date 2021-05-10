@@ -9,7 +9,7 @@ creatSCE<-function(seu){
   # input matrix
   counts_data <- as.matrix(seu@assays$RNA@data)
   col<-seu@meta.data
-  sce <- SingleCellExperiment(assays = counts_data,colData = col)
+  sce <- SingleCellExperiment(assays = list(counts = counts_data),colData = col)
   return(sce)
 }
 
