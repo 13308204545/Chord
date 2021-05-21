@@ -30,6 +30,23 @@ Q:how to remove doublets
 
 A:The doublets' barcodes are in the file "outname_doublets.csv" 
 
+## boost more methods:
+1.Using any method to evaluate the dataset "overkilled.robj", adding the results of socres to "simulated_data.scores.csv".
+
+https://github.com/13308204545/Chord/blob/main/pictures/readme1.png
+
+2.Using any method to evaluate the dataset "seu.robj", adding the results of socres to "simulated_data.scores.csv".
+
+https://github.com/13308204545/Chord/blob/main/pictures/readme2.png
+
+3.In the same dir, run the codes:
+```R
+load("seu.robj")
+load("sce.robj")
+chord(seu = seu,sce=sce,doubletrat="estimated doubletrate 2",overkill=T,outname="the name you want 2",addmethods1 ="real_data.scores.csv",addmethods2 = "simulated_data.scores.csv" )
+```
+
+4.The doublets' barcodes are in the file "outname_doublets.csv" 
 
 ## References
 McGinnis, C. S., Murrow, L. M. & Gartner, Z. J. DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors. Cell Systems 8, 329-337.e324, doi:10.1016/j.cels.2019.03.003 (2019). 
