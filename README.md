@@ -46,7 +46,7 @@ load("sce.robj")
 chord(seu = seu,sce=sce,doubletrat="estimated doubletrate 2",overkill=T,outname="the name you want 2",addmethods1 ="real_data.scores.csv",addmethods2 = "simulated_data.scores.csv" )
 ```
 
-4.The doublets' barcodes are in the file "outname_doublets.csv" 
+4.The doublets' barcodes are in the file "outname2_doublets.csv" 
 
 ## References
 McGinnis, C. S., Murrow, L. M. & Gartner, Z. J. DoubletFinder: Doublet Detection in Single-Cell RNA Sequencing Data Using Artificial Nearest Neighbors. Cell Systems 8, 329-337.e324, doi:10.1016/j.cels.2019.03.003 (2019). 
