@@ -3,6 +3,7 @@
 #' remove doublet with scds,bcds,DoubletFinder,doubletCells.
 #'
 #' @param seu the input seurat object
+#' @param seu the input sce object
 #' @param seed an integer, random seed
 #' @param k an integer,k-means param k
 #' @param overkill if True,use overkill
@@ -26,6 +27,7 @@
 #Chord------
 chord<-function(
   seu=NA,
+  sce=NA,
   doubletrate=NA,
   mfinal=40,
   k=20,
@@ -47,6 +49,28 @@ chord<-function(
   require(scran)
   require(adabag)
 
+  if (!(is.na(addmethods1)&is.na(addmethods2))) {
+
+    addmethods2<-read.csv(addmethods2,row.names = 1)
+    addmethods1<-read.csv(addmethods1,row.names = 1)
+    DBboost<-DBboostTrain(mattest=addmethods2,mfinal=mfinal)
+    mattestout<-DBboostPre2(DBboost=DBboost,mattest=addmethods1,seu=seu,sce=sce,outname=paste0(outname,mfinal))
+
+    #seu$chord<-mattestout$chord
+    #seu$bcds_s<-mattestout$bcds_s
+    #seu$cxds_s<-mattestout$cxds_s
+    #seu$dbf_s<-mattestout$dbf_s
+    #seu$scran_s<-mattestout$scran_s
+    #pdf(paste0(outname,"score.pdf"))
+    #print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","scran_s","chord")))
+    #dev.off()
+
+    write.csv(mattestout,file=paste0(outname,"real_score.csv"))
+    d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
+    write.csv(d,file=paste0(outname,"_doublet.csv"))
+    return(d)
+  }
+
   if (is.na(doubletrate)) {
     stop("You need to specify the percentage of cells you want to remove.（0<doubletrate<1）
          for example~ 0.9% per 1000 cells (10X)")
@@ -57,7 +81,7 @@ chord<-function(
 
   set.seed(seed)
 
-  doubletrate=0.009*ncol(seu)/1000
+  #doubletrate=0.009*ncol(seu)/1000
   sce<-creatSCE(seu=seu)
   sce<-scds(sce=sce)
   seu<-scranDB(seu=seu)
@@ -75,17 +99,8 @@ chord<-function(
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
-
-
-  if (is.na(addmethods1)&is.na(addmethods2)) {
-    DBboost<-DBboostTrain(mattest=mattrain2,mfinal=mfinal)
-    mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,seu=seu,sce=sce,outname=paste0(outname,mfinal))
-  }else{
-    addmethods2<-read.csv(addmethods2,row.names = 1)
-    addmethods1<-read.csv(addmethods1,row.names = 1)
-    DBboost<-DBboostTrain(mattest=addmethods2,mfinal=mfinal)
-    mattestout<-DBboostPre(DBboost=DBboost,mattest=addmethods1,seu=seu,sce=sce,outname=paste0(outname,mfinal))
-  }
+  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=mfinal)
+  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,seu=seu,sce=sce,outname=paste0(outname,mfinal))
 
   seu$chord<-mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
@@ -99,6 +114,9 @@ chord<-function(
   write.csv(mattestout,file=paste0(outname,"real_score.csv"))
   d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
   write.csv(d,file=paste0(outname,"_doublet.csv"))
+  save(seu,file="seu.robj")
+  save(sce,file="sce.robj")
+  return(d)
 }
 
 

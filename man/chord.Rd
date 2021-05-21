@@ -6,6 +6,7 @@
 \usage{
 chord(
   seu = NA,
+  sce = NA,
   doubletrate = NA,
   mfinal = 40,
   k = 20,
@@ -18,7 +19,7 @@ chord(
 )
 }
 \arguments{
-\item{seu}{the input seurat object}
+\item{seu}{the input sce object}
 
 \item{mfinal}{an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.}
 
