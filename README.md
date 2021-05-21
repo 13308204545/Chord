@@ -30,14 +30,14 @@ Q:how to remove doublets
 
 A:The doublets' barcodes are in the file "outname_doublets.csv" 
 
-## boost more methods:
+## Boost more methods:
 1.Using any method to evaluate the dataset "overkilled.robj", adding the results of socres to "simulated_data.scores.csv".
 
-https://github.com/13308204545/Chord/blob/main/pictures/readme1.png
+![image](https://github.com/13308204545/Chord/blob/main/pictures/readme1.png)
 
 2.Using any method to evaluate the dataset "seu.robj", adding the results of socres to "simulated_data.scores.csv".
 
-https://github.com/13308204545/Chord/blob/main/pictures/readme2.png
+![image](https://github.com/13308204545/Chord/blob/main/pictures/readme2.png)
 
 3.In the same dir, run the codes:
 ```R
