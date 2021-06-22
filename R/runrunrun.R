@@ -80,14 +80,14 @@ chord<-function(
   }
 
   set.seed(seed)
-
+  seu@meta.data<-seu@meta.data[,-grep("pANN",colnames(seu@meta.data))]  #Avoid errors resulting from previous results 2021.06.22
   #doubletrate=0.009*ncol(seu)/1000
   sce<-creatSCE(seu=seu)
   sce<-scds(sce=sce)
   seu<-scranDB(seu=seu)
   seu<-DBF(seu=seu,ground_truth = F,doubletrate=doubletrate)
 
-  mattrain<-testroc(seu=seu,sce=sce,outname = "train")#第一次测试,只对有实验标签的使用
+  mattrain<-testroc(seu=seu,sce=sce,outname = "train")
   write.csv(mattrain,file = "real_data.scores.csv")
 
   seu2<-overkillDB2(seu=seu,sce=sce,doubletrate=doubletrate,seed=seed,k=k,overkill=overkill,overkillrate=overkillrate)
