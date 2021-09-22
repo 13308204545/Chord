@@ -100,7 +100,7 @@ chord<-function(
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
   DBboost<-DBboostTrain(mattest=mattrain2,mfinal=mfinal)
-  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,seu=seu,sce=sce,outname=paste0(outname,mfinal))
+  mattestout<-DBboostPre(DBboost=DBboost,mattest=NA,seu=seu,sce=sce,outname=paste0(outname,mfinal))
 
   seu$chord<-mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
