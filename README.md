@@ -8,12 +8,9 @@ remotes::install_github('chris-mcginnis-ucsf/DoubletFinder')
 
 devtools::install_github('kostkalab/scds',ref="master")
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install(version='devel')
-BiocManager::install("scran",version='3.11')
-
 install.packages("adabag")
+
+install.packages("gbm")
 
 devtools::install_github("13308204545/Chord") 
    
