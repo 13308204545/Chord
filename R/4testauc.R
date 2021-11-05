@@ -1,10 +1,10 @@
 
-#对于真实数据集，待修改
+#
 #ggplot aucroc aucpr------------
 
 rocplot<- function(pred, truth, ...){
 
-  #打印AUc
+  #print AUc
   preauc<-data.frame(pred,truth)
   rocauc<-roc(formula = truth ~ pred, data = preauc)
   predob<- prediction(pred, truth)
@@ -23,17 +23,17 @@ rocplot<- function(pred, truth, ...){
 
 ## testroc------------
 testroc<-function(seu,sce,outname){
- # true<-as.vector(sce[,sce$label_scds!="Negative"]$label_scds)
+# true<-as.vector(sce[,sce$label_scds!="Negative"]$label_scds)
   bcds_s<-sce$bcds_score
   cxds_s<-sce$cxds_score
-  dbf_s<-seu@meta.data[,ncol(seu@meta.data)-1]
-  scran_s<-seu@meta.data[,"scran"]
- # mattest<-as.data.frame(cbind(true,bcds_s,cxds_s,dbf_s,scran_s))
-  mattest<-as.data.frame(cbind(bcds_s,cxds_s,dbf_s,scran_s))
+  dbf_s<-seu@meta.data[,grep("pANN",colnames(seu@meta.data))]
+#  scran_s<-seu@meta.data[,"scran"]   ########
+#  mattest<-as.data.frame(cbind(true,bcds_s,cxds_s,dbf_s,scran_s))  #######
+  mattest<-as.data.frame(cbind(bcds_s,cxds_s,dbf_s))
   mattest$bcds_s<-as.numeric(mattest$bcds_s)
   mattest$cxds_s<-as.numeric(mattest$cxds_s)
   mattest$dbf_s<-as.numeric(mattest$dbf_s)
-  mattest$scran_s<-as.numeric(mattest$scran_s)
+#  mattest$scran_s<-as.numeric(mattest$scran_s)  ########
   str(mattest)
 
   return(mattest)
@@ -44,13 +44,11 @@ testroc2<-function(seu,sce,outname){
   true<-as.vector(sce$label_scds)
   bcds_s<-sce$bcds_score
   cxds_s<-sce$cxds_score
-  dbf_s<-seu@meta.data[,ncol(seu@meta.data)-1]
-  scran_s<-seu@meta.data[,"scran"]
-  mattest<-as.data.frame(cbind(true,bcds_s,cxds_s,dbf_s,scran_s))
+  dbf_s<-seu@meta.data[,grep("pANN",colnames(seu@meta.data))]
+  mattest<-as.data.frame(cbind(true,bcds_s,cxds_s,dbf_s))
   mattest$bcds_s<-as.numeric(mattest$bcds_s)
   mattest$cxds_s<-as.numeric(mattest$cxds_s)
   mattest$dbf_s<-as.numeric(mattest$dbf_s)
-  mattest$scran_s<-as.numeric(mattest$scran_s)
   str(mattest)
 
   return(mattest)

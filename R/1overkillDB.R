@@ -18,28 +18,21 @@ overkillDB2<-function(seu,sce,doubletrate,seed=1,k=20,overkill=T,overkillrate=1)
   require(cowplot)
   seu$bcds_s<-sce$bcds_score
   seu$cxds_s<-sce$cxds_score
-  seu$scran_s<-seu@meta.data[,"scran"]
   seu$dbf_s<-seu@meta.data[,grep("pANN",colnames(seu@meta.data))]
   x<-nrow(seu@meta.data)*doubletrate
 
   seu@meta.data$overkill<-"Singlet"
   seu@meta.data[names(sort(x=seu$bcds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
   seu@meta.data[names(sort(x=seu$cxds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
-  seu@meta.data[names(sort(x=seu$scran_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
   seu@meta.data[names(sort(x=seu$dbf_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
   overkillrate<-sum(seu$overkill%in%"Doublet")/x
   seu2<-seu
-
 
   ##PCA+kmeans,delete overkilled doublet
   pcmat<-seu2@reductions$pca@cell.embeddings[,1:30] #first 30pc kmeans
   cl<- kmeans(pcmat,k)   ##k
   seu2$kcluster<-cl$cluster
-
-  pdf("kcluster.pdf")
   print(DimPlot(seu2,group.by = "kcluster"))
-  dev.off()
-
 
   ##add doublet    #####待优化为针对稀疏矩阵的做,如何最高效率进行随机抽取
   nrow(seu2@meta.data)

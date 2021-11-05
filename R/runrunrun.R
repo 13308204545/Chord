@@ -19,7 +19,6 @@
 #' @import Rtsne
 #' @import cowplot
 #' @import DoubletFinder
-#' @import scran
 #' @import adabag
 #' @export
 #' @examples chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
@@ -46,7 +45,6 @@ chord<-function(
   require(Rtsne)
   require(cowplot)
   require(DoubletFinder)
-  require(scran)
   require(adabag)
 
   if (!(is.na(addmethods1)&is.na(addmethods2))) {
@@ -55,16 +53,6 @@ chord<-function(
     addmethods1<-read.csv(addmethods1,row.names = 1)
     DBboost<-DBboostTrain(mattest=addmethods2,mfinal=mfinal)
     mattestout<-DBboostPre2(DBboost=DBboost,mattest=addmethods1,seu=seu,sce=sce,outname=paste0(outname,mfinal))
-
-    #seu$chord<-mattestout$chord
-    #seu$bcds_s<-mattestout$bcds_s
-    #seu$cxds_s<-mattestout$cxds_s
-    #seu$dbf_s<-mattestout$dbf_s
-    #seu$scran_s<-mattestout$scran_s
-    #pdf(paste0(outname,"score.pdf"))
-    #print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","scran_s","chord")))
-    #dev.off()
-
     write.csv(mattestout,file=paste0(outname,"real_score.csv"))
     d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
     write.csv(d,file=paste0(outname,"_doublet.csv"))
@@ -80,11 +68,9 @@ chord<-function(
   }
 
   set.seed(seed)
-  seu@meta.data<-seu@meta.data[,-grep("pANN",colnames(seu@meta.data))]  #Avoid errors resulting from previous results 2021.06.22
-  #doubletrate=0.009*ncol(seu)/1000
+  seu@meta.data<-seu@meta.data[,-grep("pANN",colnames(seu@meta.data))]  #Avoid errors resulting from previous results 2021.06.22  ps:adviced doubletrate=0.009*ncol(seu)/1000
   sce<-creatSCE(seu=seu)
   sce<-scds(sce=sce)
-  seu<-scranDB(seu=seu)
   seu<-DBF(seu=seu,ground_truth = F,doubletrate=doubletrate)
 
   mattrain<-testroc(seu=seu,sce=sce,outname = "train")
@@ -94,21 +80,20 @@ chord<-function(
   doubletrate2=sum(seu2$label_scds=="Doublet")/ncol(seu2)
   sce2<-creatSCE(seu=seu2)
   sce2<-scds(sce=sce2)
-  seu2<-scranDB(seu=seu2)
   seu2<-DBF(seu=seu2,ground_truth = F,doubletrate=doubletrate2)
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
-  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=mfinal)
-  mattestout<-DBboostPre(DBboost=DBboost,mattest=NA,seu=seu,sce=sce,outname=paste0(outname,mfinal))
+  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = "gbm")
+  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = "gbm")
 
-  seu$chord<-mattestout$chord
+  seu$chord<--mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
   seu$cxds_s<-mattestout$cxds_s
   seu$dbf_s<-mattestout$dbf_s
-  seu$scran_s<-mattestout$scran_s
+
   pdf(paste0(outname,"score.pdf"))
-  print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","scran_s","chord")))
+  print(FeaturePlot(seu,features = c("bcds_s","cxds_s","dbf_s","chord")))
   dev.off()
 
   write.csv(mattestout,file=paste0(outname,"real_score.csv"))
@@ -119,5 +104,9 @@ chord<-function(
   return(d)
 }
 
+#chord(seu=seu,doubletrate = doubletrate,seed = 3)
+#xx<-read.csv("outreal_score.csv",row.names = 1)
+#xxx<-read.csv("../A/finalScore.40.csv",row.names = 1)
 
+#roc(response = lab,predictor =mattestout$chord)
 

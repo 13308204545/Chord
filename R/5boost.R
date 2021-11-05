@@ -18,7 +18,7 @@
 #####======================run=================================================
 
 ##V3:设置了可选择集成方法
-DBboostTrain<-function(mattest,mfinal,method="adaboost"){
+DBboostTrain<-function(mattest,mfinal,method="gbm"){
   if (method=="adaboost") {
     require(adabag)
     str(mattest)
@@ -68,22 +68,22 @@ DBboostTrain<-function(mattest,mfinal,method="adaboost"){
     require(gbm)
     str(mattest)
     mattest$true<-as.factor(mattest$true)
-    DBboost <- gbm(true~.,distribution = 'gaussian',data=mattest,n.trees=1000,shrinkage = 0.01)
+    DBboost <- gbm(true~.,distribution = 'gaussian',data=mattest,n.trees=1000,shrinkage = 0.01,cv.folds = 5)
     return(DBboost)
   }
 }
-DBboostPre<-function(DBboost,seu=seu,sce=sce,mattest=NULL,outname="out",method="adaboost"){
+DBboostPre<-function(DBboost,seu=seu,sce=sce,mattest=NULL,outname=outname,method="gbm"){
 
   if (is.null(mattest)) {
     bcds_s<-sce$bcds_score
     cxds_s<-sce$cxds_score
-    dbf_s<-seu@meta.data[,ncol(seu@meta.data)-1]
-    scran_s<-seu@meta.data[,"scran"]
-    mattest<-as.data.frame(cbind(bcds_s,cxds_s,dbf_s,scran_s))
+    dbf_s<-seu@meta.data[,grep("pANN",colnames(seu@meta.data))]
+#   scran_s<-seu@meta.data[,"scran"]   ######
+    mattest<-as.data.frame(cbind(bcds_s,cxds_s,dbf_s))
     mattest$bcds_s<-as.numeric(mattest$bcds_s)
     mattest$cxds_s<-as.numeric(mattest$cxds_s)
     mattest$dbf_s<-as.numeric(mattest$dbf_s)
-    mattest$scran_s<-as.numeric(mattest$scran_s)
+   #mattest$scran_s<-as.numeric(mattest$scran_s)
     str(mattest)
   }
   if (method=="adaboost"){
