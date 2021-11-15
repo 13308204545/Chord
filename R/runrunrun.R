@@ -1,7 +1,7 @@
 #' Chord
 #'
-#' remove doublet with scds,bcds,DoubletFinder,doubletCells.
-#'
+#' remove doublet with scds,bcds,DoubletFinder.
+#' @param method the boost method ("adaboost" or "gbm")
 #' @param seu the input seurat object
 #' @param seu the input sce object
 #' @param seed an integer, random seed
@@ -11,7 +11,7 @@
 #' @param outname The prefix of the output file
 #' @param addmethods2 the table merged with other method's scores2
 #' @param addmethods1 the table merged with other method's scores1
-#' @param mfinal an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.
+#' @param mfinal an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")
 #' @import Seurat
 #' @import scds
 #' @import scater
@@ -22,7 +22,7 @@
 #' @import adabag
 #' @import gbm
 #' @export
-#' @examples chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+#' @examples chord(seu=NA,doubletrate=NA,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
 
 
 #Chord------
@@ -32,6 +32,7 @@ chord<-function(
   doubletrate=NA,
   mfinal=40,
   k=20,
+  method="gbm",
   overkill=T,
   overkillrate=1,
   outname="out",
@@ -86,8 +87,8 @@ chord<-function(
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
-  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = "gbm")
-  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = "gbm")
+  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = method)
+  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = method)
 
   seu$chord<--mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
