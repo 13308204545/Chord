@@ -41,5 +41,5 @@ chord(
 remove doublet with scds,bcds,DoubletFinder,doubletCells.
 }
 \examples{
-chord(seu=seuratobj,doubletrate=0.1,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
 }
