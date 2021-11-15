@@ -126,7 +126,7 @@ DBboostPre<-function(DBboost,seu=seu,sce=sce,mattest=NULL,outname=outname,method
   if (method=="gbm"){
     require(gbm)
     pred<-predict(DBboost,mattest,gbm.perf(DBboost))
-    mattest$chord<-pred
+    mattest$chord<--pred
     write.csv(mattest,file = paste0("finalScore.",outname,".csv"))
     pdf(paste0(outname,"hist.pdf"))
     p<-hist(x = mattest$chord ,breaks = 50)
