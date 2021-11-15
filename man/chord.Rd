@@ -15,7 +15,8 @@ chord(
   outname = "out",
   seed = 1,
   addmethods1 = NA,
-  addmethods2 = NA
+  addmethods2 = NA,
+  method = "gbm"
 )
 }
 \arguments{
@@ -36,10 +37,12 @@ chord(
 \item{addmethods1}{the table merged with other method's scores1}
 
 \item{addmethods2}{the table merged with other method's scores2}
+
+\item{method}{boosting method}
 }
 \description{
 remove doublet with scds,bcds,DoubletFinder,doubletCells.
 }
 \examples{
-chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+chord(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1,method="gbm")
 }

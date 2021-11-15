@@ -1,6 +1,6 @@
 # Chord
 remove single cells Doublets by integrating tools! 
-Chord uses the AdBoost algorithm to integrate different methods for stable and accurate doublets filtered results. 
+Chord uses the gbm/adaboost algorithm to integrate different methods for stable and accurate doublets filtered results. 
 
 ## Install:
 ```R
@@ -8,11 +8,7 @@ remotes::install_github('chris-mcginnis-ucsf/DoubletFinder')
 
 devtools::install_github('kostkalab/scds',ref="master")
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install(version='devel')
-BiocManager::install("scran",version='3.11')
-
+install.packages("gbm")
 install.packages("adabag")
 
 devtools::install_github("13308204545/Chord") 
@@ -26,7 +22,7 @@ Q:how to estimate doubletrate?
 
 A:It depends on the number of cells in the sample. 10X can be referred：doubletrate = ~0.9% per 1,000 cells.  
 
-Q:how to remove doublets 
+Q:how to remove doublets？ 
 
 A:The doublets' barcodes are in the file "outname_doublets.csv" 
 

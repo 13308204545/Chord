@@ -4,6 +4,7 @@
 #'
 #' @param seu the input seurat object
 #' @param seu the input sce object
+#' @param method boosting method
 #' @param seed an integer, random seed
 #' @param k an integer,k-means param k
 #' @param overkill if True,use overkill
@@ -20,8 +21,9 @@
 #' @import cowplot
 #' @import DoubletFinder
 #' @import adabag
+#' @import gbm
 #' @export
-#' @examples chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+#' @examples chord(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1,method="gbm")
 
 #Chord------
 chord<-function(
@@ -35,7 +37,8 @@ chord<-function(
   outname="out",
   seed=1,
   addmethods1=NA,
-  addmethods2=NA
+  addmethods2=NA,
+  method = "gbm"
   ){
 
   require(Seurat)
@@ -46,6 +49,7 @@ chord<-function(
   require(cowplot)
   require(DoubletFinder)
   require(adabag)
+  require(gbm)
 
   if (!(is.na(addmethods1)&is.na(addmethods2))) {
 
@@ -84,8 +88,8 @@ chord<-function(
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 
-  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = "gbm")
-  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = "gbm")
+  DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = method)
+  mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = method)
 
   seu$chord<--mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
@@ -97,7 +101,12 @@ chord<-function(
   dev.off()
 
   write.csv(mattestout,file=paste0(outname,"real_score.csv"))
-  d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
+  if (method=="gbm") {
+    d<-rownames(mattestout)[order(mattestout$chord,decreasing = F)[1:round(doubletrate*ncol(seu))]]
+  }else{
+    d<-rownames(mattestout)[order(mattestout$chord,decreasing = T)[1:round(doubletrate*ncol(seu))]]
+  }
+
   write.csv(d,file=paste0(outname,"_doublet.csv"))
   save(seu,file="seu.robj")
   save(sce,file="sce.robj")
