@@ -20,8 +20,10 @@
 #' @import cowplot
 #' @import DoubletFinder
 #' @import adabag
+#' @import gbm
 #' @export
 #' @examples chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+
 
 #Chord------
 chord<-function(
