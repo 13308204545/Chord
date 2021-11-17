@@ -10,6 +10,7 @@ chord(
   doubletrate = NA,
   mfinal = 40,
   k = 20,
+  method = "gbm",
   overkill = T,
   overkillrate = 1,
   outname = "out",
@@ -21,9 +22,11 @@ chord(
 \arguments{
 \item{seu}{the input sce object}
 
-\item{mfinal}{an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.}
+\item{mfinal}{an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")}
 
 \item{k}{an integer,k-means param k}
+
+\item{method}{the boost method ("adaboost" or "gbm")}
 
 \item{overkill}{if True,use overkill}
 
@@ -38,8 +41,8 @@ chord(
 \item{addmethods2}{the table merged with other method's scores2}
 }
 \description{
-remove doublet with scds,bcds,DoubletFinder,doubletCells.
+remove doublet with scds,bcds,DoubletFinder.
 }
 \examples{
-chord<-function(seu=NA,doubletrate=NA,mfinal=40,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
+chord(seu=NA,doubletrate=NA,k=20,overkill=T,overkillrate=1,outname="out",seed=1)
 }
