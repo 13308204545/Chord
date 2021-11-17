@@ -90,7 +90,7 @@ chord<-function(
   DBboost<-DBboostTrain(mattest=mattrain2,mfinal=40,method = method)
   mattestout<-DBboostPre(DBboost=DBboost,mattest=mattrain,outname=40,method = method)
 
-  seu$chord<--mattestout$chord
+  seu$chord<-mattestout$chord
   seu$bcds_s<-mattestout$bcds_s
   seu$cxds_s<-mattestout$cxds_s
   seu$dbf_s<-mattestout$dbf_s
