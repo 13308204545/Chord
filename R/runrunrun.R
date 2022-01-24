@@ -95,7 +95,7 @@ chord<-function(
             cxds.ntop=cxds.ntop,
             cxds.binThresh=cxds.binThresh,
             bcds.ntop=bcds.ntop,
-            bcds.srat=bcds.srat,)
+            bcds.srat=bcds.srat)
   seu<-DBF(seu=seu,ground_truth = F,doubletrate=doubletrate,dbf.PCs=dbf.PCs,
            dbf.pN=dbf.pN,
            dbf.pK=dbf.pK)
