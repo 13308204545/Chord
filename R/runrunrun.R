@@ -12,6 +12,15 @@
 #' @param addmethods2 the table merged with other method's scores2
 #' @param addmethods1 the table merged with other method's scores1
 #' @param mfinal an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")
+#' @param overkilllist a vector of cells to be remove in overkill
+#' @param adddoublt doubletrate of cells to be simulate
+#' @param cxds.ntop integer, indimessageing number of top variance genes to consider. Default: 500
+#' @param cxds.binThresh integer, minimum counts to consider a gene "present" in a cell. Default: 0
+#' @param bcds.ntop integer, indicating number of top variance genes to consider. Default: 500
+#' @param bcds.srat numeric, indicating ratio between orginal number of "cells" and simulated doublets; Default: 1
+#' @param dbf.PCs Number of statistically-significant principal components (e.g., as estimated from PC elbow plot); Default: 1:10
+#' @param dbf.pN  The number of generated artificial doublets, expressed as a proportion of the merged real-artificial data. Default is set to 0.25, based on observation that DoubletFinder performance is largely pN-invariant (see McGinnis, Murrow and Gartner 2019, Cell Systems).
+#' @param dbf.pK  The PC neighborhood size used to compute pANN, expressed as a proportion of the merged real-artificial data. No default is set, as pK should be adjusted for each scRNA-seq dataset. Optimal pK values can be determined using mean-variance-normalized bimodality coefficient.
 #' @import Seurat
 #' @import scds
 #' @import scater
@@ -38,7 +47,16 @@ chord<-function(
   outname="out",
   seed=1,
   addmethods1=NA,
-  addmethods2=NA
+  addmethods2=NA,
+  overkilllist=NA,
+  adddoublt=NA,
+  cxds.ntop=NA,
+  cxds.binThresh=NA,
+  bcds.ntop=NA,
+  bcds.srat=NA,
+  dbf.PCs=1:10,
+  dbf.pN=0.25,
+  dbf.pK=NA
   ){
 
   require(Seurat)
@@ -73,17 +91,29 @@ chord<-function(
   set.seed(seed)
   seu@meta.data<-seu@meta.data[,-grep("pANN",colnames(seu@meta.data))]  #Avoid errors resulting from previous results 2021.06.22  ps:adviced doubletrate=0.009*ncol(seu)/1000
   sce<-creatSCE(seu=seu)
-  sce<-scds(sce=sce)
-  seu<-DBF(seu=seu,ground_truth = F,doubletrate=doubletrate)
+  sce<-scds(sce=sce,
+            cxds.ntop=cxds.ntop,
+            cxds.binThresh=cxds.binThresh,
+            bcds.ntop=bcds.ntop,
+            bcds.srat=bcds.srat,)
+  seu<-DBF(seu=seu,ground_truth = F,doubletrate=doubletrate,dbf.PCs=dbf.PCs,
+           dbf.pN=dbf.pN,
+           dbf.pK=dbf.pK)
 
   mattrain<-testroc(seu=seu,sce=sce,outname = "train")
   write.csv(mattrain,file = "real_data.scores.csv")
 
-  seu2<-overkillDB2(seu=seu,sce=sce,doubletrate=doubletrate,seed=seed,k=k,overkill=overkill,overkillrate=overkillrate)
+  seu2<-overkillDB2(seu=seu,sce=sce,doubletrate=doubletrate,seed=seed,k=k,overkill=overkill,overkillrate=overkillrate,overkilllist=overkilllist,adddoublt=adddoublt)
   doubletrate2=sum(seu2$label_scds=="Doublet")/ncol(seu2)
   sce2<-creatSCE(seu=seu2)
-  sce2<-scds(sce=sce2)
-  seu2<-DBF(seu=seu2,ground_truth = F,doubletrate=doubletrate2)
+  sce2<-scds(sce=sce2,
+             cxds.ntop=cxds.ntop,
+             cxds.binThresh=cxds.binThresh,
+             bcds.ntop=bcds.ntop,
+             bcds.srat=bcds.srat)
+  seu2<-DBF(seu=seu2,ground_truth = F,doubletrate=doubletrate2,dbf.PCs=dbf.PCs,
+            dbf.pN=dbf.pN,
+            dbf.pK=dbf.pK)
   mattrain2<-testroc2(seu=seu2,sce=sce2,outname = "train with createdDB")
   write.csv(mattrain2,file = "simulated_data.scores.csv")
 

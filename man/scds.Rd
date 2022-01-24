@@ -4,7 +4,7 @@
 \alias{scds}
 \title{run bcds cxds}
 \usage{
-scds(sce)
+scds(sce, cxds.ntop = NA, cxds.binThresh = NA, bcds.ntop = NA, bcds.srat = NA)
 }
 \arguments{
 \item{sce}{the input SCE object}

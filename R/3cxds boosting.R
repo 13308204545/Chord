@@ -3,14 +3,18 @@
 #' run bcds cxds and return SCE object
 #'
 #' @param sce the input SCE object
-scds<-function(sce){
+scds<-function(sce,
+               cxds.ntop=NA,
+               cxds.binThresh=NA,
+               bcds.ntop=NA,
+               bcds.srat=NA){
   require(scds)
   require(scater)
   require(rsvd)
   require(Rtsne)
   require(cowplot)
-  sce = cxds(sce,retRes = TRUE)
-  sce = bcds(sce,retRes = TRUE,verb=TRUE)
+  sce = cxds(sce,retRes = TRUE,ntop = if (is.na(cxds.ntop)){500}else{cxds.ntop},binThresh =if (is.na(cxds.binThresh)){0}else{cxds.binThresh})
+  sce = bcds(sce,retRes = TRUE,verb=TRUE,ntop = if (is.na(bcds.ntop)){500}else{bcds.ntop},srat =  if (is.na(bcds.srat)){1}else{bcds.srat})
   return(sce)
 }
 

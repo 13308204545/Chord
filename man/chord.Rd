@@ -16,7 +16,16 @@ chord(
   outname = "out",
   seed = 1,
   addmethods1 = NA,
-  addmethods2 = NA
+  addmethods2 = NA,
+  overkilllist = NA,
+  adddoublt = NA,
+  cxds.ntop = NA,
+  cxds.binThresh = NA,
+  bcds.ntop = NA,
+  bcds.srat = NA,
+  dbf.PCs = 1:10,
+  dbf.pN = 0.25,
+  dbf.pK = NA
 )
 }
 \arguments{
@@ -39,6 +48,24 @@ chord(
 \item{addmethods1}{the table merged with other method's scores1}
 
 \item{addmethods2}{the table merged with other method's scores2}
+
+\item{overkilllist}{a vector of cells to be remove in overkill}
+
+\item{adddoublt}{doubletrate of cells to be simulate}
+
+\item{cxds.ntop}{integer, indimessageing number of top variance genes to consider. Default: 500}
+
+\item{cxds.binThresh}{integer, minimum counts to consider a gene "present" in a cell. Default: 0}
+
+\item{bcds.ntop}{integer, indicating number of top variance genes to consider. Default: 500}
+
+\item{bcds.srat}{numeric, indicating ratio between orginal number of "cells" and simulated doublets; Default: 1}
+
+\item{dbf.PCs}{Number of statistically-significant principal components (e.g., as estimated from PC elbow plot); Default: 1:10}
+
+\item{dbf.pN}{The number of generated artificial doublets, expressed as a proportion of the merged real-artificial data. Default is set to 0.25, based on observation that DoubletFinder performance is largely pN-invariant (see McGinnis, Murrow and Gartner 2019, Cell Systems).}
+
+\item{dbf.pK}{The PC neighborhood size used to compute pANN, expressed as a proportion of the merged real-artificial data. No default is set, as pK should be adjusted for each scRNA-seq dataset. Optimal pK values can be determined using mean-variance-normalized bimodality coefficient.}
 }
 \description{
 remove doublet with scds,bcds,DoubletFinder.

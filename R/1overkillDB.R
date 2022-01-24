@@ -8,8 +8,10 @@
 #' @param k k-means param k
 #' @param overkill weather use overkill
 #' @param overkillrate remove the top ?% doublet-liked cells of any methods' results.
+#' @param overkilllist a vector of cells to be remove in overkill
+#' @param adddoublt doubletrate of cells to be simulate
 
-overkillDB2<-function(seu,sce,doubletrate,seed=1,k=20,overkill=T,overkillrate=1){
+overkillDB2<-function(seu,sce,doubletrate,seed=1,k=20,overkill=T,overkillrate=1,overkilllist=overkilllist,adddoublt=adddoublt){
   require(Seurat)
   require(scds)
   require(scater)
@@ -22,9 +24,13 @@ overkillDB2<-function(seu,sce,doubletrate,seed=1,k=20,overkill=T,overkillrate=1)
   x<-nrow(seu@meta.data)*doubletrate
 
   seu@meta.data$overkill<-"Singlet"
-  seu@meta.data[names(sort(x=seu$bcds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
-  seu@meta.data[names(sort(x=seu$cxds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
-  seu@meta.data[names(sort(x=seu$dbf_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
+  if (is.na(overkilllist)) {
+    seu@meta.data[names(sort(x=seu$bcds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
+    seu@meta.data[names(sort(x=seu$cxds_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
+    seu@meta.data[names(sort(x=seu$dbf_s,decreasing = T))[1:(overkillrate*x)],"overkill"]<-"Doublet"
+  }else{
+    seu@meta.data[overkilllist,"overkill"]<-"Doublet"
+  }
   overkillrate<-sum(seu$overkill%in%"Doublet")/x
   seu2<-seu
 
@@ -46,6 +52,9 @@ overkillDB2<-function(seu,sce,doubletrate,seed=1,k=20,overkill=T,overkillrate=1)
   b<-c()
   x<-c()
   y<-c()
+  if (!is.na(adddoublt)) {
+    doubletrate<-adddoublt
+  }
   for (i in 1:k) {
     a<-c(a,sample(x=rownames(mat[mat$kcluster==i,]),size = (doubletrate/(1-doubletrate))*nrow(mat[mat$kcluster==i,]),replace = F))
     b<-c(b,sample(x=rownames(mat[mat$kcluster!=i,]),size = (doubletrate/(1-doubletrate))*nrow(mat[mat$kcluster==i,]),replace = F))

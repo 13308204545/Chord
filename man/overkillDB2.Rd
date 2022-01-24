@@ -11,7 +11,9 @@ overkillDB2(
   seed = 1,
   k = 20,
   overkill = T,
-  overkillrate = 1
+  overkillrate = 1,
+  overkilllist = overkilllist,
+  adddoublt = adddoublt
 )
 }
 \arguments{
@@ -26,6 +28,10 @@ overkillDB2(
 \item{overkill}{weather use overkill}
 
 \item{overkillrate}{remove the top ?\% doublet-liked cells of any methods' results.}
+
+\item{overkilllist}{a vector of cells to be remove in overkill}
+
+\item{adddoublt}{doubletrate of cells to be simulate}
 }
 \description{
 simulation training set is generated from quality singlet data after filter any doublets detected by any method
