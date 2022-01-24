@@ -2,6 +2,49 @@
 remove single cells Doublets by integrating tools! 
 Chord uses the AdBoost algorithm to integrate different methods for stable and accurate doublets filtered results. 
 
+parameter:
+
+method the boost method ("adaboost" or "gbm")
+
+seu the input seurat object
+
+sce the input sce object
+
+seed an integer, random seed
+
+k an integer,k-means param k
+
+overkill  if True,use overkill
+
+overkillrate  an integer,remove the top ?% doublet-liked cells of any methods' results.(0-1)
+
+outname The prefix of the output file
+
+addmethods2 the table merged with other method's scores2
+
+addmethods1 the table merged with other method's scores1
+
+mfinal  an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")
+
+overkilllist  a vector of cells to be remove in overkill
+
+adddoublt doubletrate of cells to be simulate
+
+cxds.ntop integer, indimessageing number of top variance genes to consider. Default: 500
+
+cxds.binThresh  integer, minimum counts to consider a gene "present" in a cell. Default: 0
+
+bcds.ntop integer, indicating number of top variance genes to consider. Default: 500
+
+bcds.srat numeric, indicating ratio between orginal number of "cells" and simulated doublets; Default: 1
+
+dbf.PCs Number of statistically-significant principal components (e.g., as estimated from PC elbow plot); Default: 1:10
+
+dbf.pN  The number of generated artificial doublets, expressed as a proportion of the merged real-artificial data. Default is set to 0.25, based on observation that DoubletFinder performance is largely pN-invariant (see McGinnis, Murrow and Gartner 2019, Cell Systems).
+
+dbf.pK  The PC neighborhood size used to compute pANN, expressed as a proportion of the merged real-artificial data. No default is set, as pK should be adjusted for each scRNA-seq dataset. Optimal pK values can be determined using mean-variance-normalized bimodality coefficient.
+
+
 ## Install:
 ```R
 remotes::install_github('chris-mcginnis-ucsf/DoubletFinder') 
@@ -28,9 +71,10 @@ Q:how to remove doublets
 A:The doublets' barcodes are in the file "outname_doublets.csv" 
 
 ## Choose overkill combination
-
+```R
 You can choose any combination of methods for overkill by setting the overkilllist parameter (a vector of cells to be remove in overkill)
 
+```
 ## Boost more methods:
 1.Using any method to evaluate the dataset "overkilled.robj", adding the results of socres to "simulated_data.scores.csv".
 
