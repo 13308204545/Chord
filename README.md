@@ -4,45 +4,45 @@ Chord uses the AdBoost algorithm to integrate different methods for stable and a
 
 parameter:
 
-*method* the boost method ("adaboost" or "gbm")
+**method** the boost method ("adaboost" or "gbm")
 
-*seu* the input seurat object
+**seu** the input seurat object
 
-*sce* the input sce object
+**sce** the input sce object
 
-*seed* an integer, random seed
+**seed** an integer, random seed
 
-*k* an integer,k-means param k
+**k** an integer,k-means param k
 
-*overkill*  if True,use overkill
+**overkill**  if True,use overkill
 
-*overkillrate*  an integer,remove the top ?% doublet-liked cells of any methods' results.(0-1)
+**overkillrate**  an integer,remove the top ?% doublet-liked cells of any methods' results.(0-1)
 
-*outname* The prefix of the output file
+**outname** The prefix of the output file
 
-*addmethods2* the table merged with other method's scores2
+**addmethods2** the table merged with other method's scores2
 
-*addmethods1* the table merged with other method's scores1
+**addmethods1** the table merged with other method's scores1
 
-*mfinal*  an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")
+**mfinal**  an integer, the number of iterations for which boosting is run or the number of trees to use. Defaults to mfinal=40 iterations.(only works when method="adaboost")
 
-*overkilllist*  a vector of cells to be remove in overkill
+**overkilllist**  a vector of cells to be remove in overkill
 
-*adddoublt* doubletrate of cells to be simulate
+**adddoublt** doubletrate of cells to be simulate
 
-*cxds.ntop* integer, indimessageing number of top variance genes to consider. Default: 500
+**cxds.ntop** integer, indimessageing number of top variance genes to consider. Default: 500
 
-*cxds.binThresh*  integer, minimum counts to consider a gene "present" in a cell. Default: 0
+**cxds.binThresh**  integer, minimum counts to consider a gene "present" in a cell. Default: 0
 
-*bcds.ntop* integer, indicating number of top variance genes to consider. Default: 500
+**bcds.ntop** integer, indicating number of top variance genes to consider. Default: 500
 
-*bcds.srat* numeric, indicating ratio between orginal number of "cells" and simulated doublets; Default: 1
+**bcds.srat** numeric, indicating ratio between orginal number of "cells" and simulated doublets; Default: 1
 
-*dbf.PCs* Number of statistically-significant principal components (e.g., as estimated from PC elbow plot); Default: 1:10
+**dbf.PCs** Number of statistically-significant principal components (e.g., as estimated from PC elbow plot); Default: 1:10
 
-*dbf.pN*  The number of generated artificial doublets, expressed as a proportion of the merged real-artificial data. Default is set to 0.25, based on observation that DoubletFinder performance is largely pN-invariant (see McGinnis, Murrow and Gartner 2019, Cell Systems).
+**dbf.pN**  The number of generated artificial doublets, expressed as a proportion of the merged real-artificial data. Default is set to 0.25, based on observation that DoubletFinder performance is largely pN-invariant (see McGinnis, Murrow and Gartner 2019, Cell Systems).
 
-*dbf.pK*  The PC neighborhood size used to compute pANN, expressed as a proportion of the merged real-artificial data. No default is set, as pK should be adjusted for each scRNA-seq dataset. Optimal pK values can be determined using mean-variance-normalized bimodality coefficient.
+**dbf.pK**  The PC neighborhood size used to compute pANN, expressed as a proportion of the merged real-artificial data. No default is set, as pK should be adjusted for each scRNA-seq dataset. Optimal pK values can be determined using mean-variance-normalized bimodality coefficient.
 
 
 ## Install:
