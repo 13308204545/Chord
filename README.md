@@ -27,6 +27,10 @@ Q:how to remove doublets
 
 A:The doublets' barcodes are in the file "outname_doublets.csv" 
 
+## Choose overkill combination
+
+You can choose any combination of methods for overkill preprocessing by setting the overkilllist parameter (a vector of cells to be remove in overkill)
+
 ## Boost more methods:
 1.Using any method to evaluate the dataset "overkilled.robj", adding the results of socres to "simulated_data.scores.csv".
 
