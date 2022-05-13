@@ -1,6 +1,6 @@
 # Chord
 remove single cells Doublets by integrating tools! 
-Chord uses the AdBoost algorithm to integrate different methods for stable and accurate doublets filtered results. 
+Chord uses the gbm/AdBoost algorithm to integrate different methods for stable and accurate doublets filtered results. 
 
 parameter:
 
